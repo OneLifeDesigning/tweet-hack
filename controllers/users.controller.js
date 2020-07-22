@@ -20,6 +20,32 @@ module.exports.doSocialLogin = (req, res, next) => {
   passportController(req, res, next);
 }
 
+module.exports.doSocialLoginGoogle = (req, res, next) => {
+  const passportDoSocialLoginGoogle =  passport.authenticate('google', { scope:  ['profile', 'email']}, (error, user) => {
+    if (error) {
+      next(error);
+    } else {
+      req.session.userId = user._id;
+      res.redirect("/");
+    }
+  })
+
+  passportDoSocialLoginGoogle(req, res, next)
+}
+
+module.exports.doSocialLoginGoogleCB = (req, res, next) => {
+  const passportDoSocialLoginGoogleCB =  passport.authenticate('google', {  successRedirect: '/tweets', failureRedirect: '/login' }, (error, user) => {
+    if (error) {
+      next(error);
+    } else {
+      req.session.userId = user._id;
+      res.redirect("/");
+    }
+  })
+  
+  passportDoSocialLoginGoogleCB(req, res, next)
+}
+
 module.exports.doLogin = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then(user => {

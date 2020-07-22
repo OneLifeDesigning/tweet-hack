@@ -19,7 +19,7 @@ module.exports.list = (req, res, next) => {
 
 module.exports.like = (req, res, next) => {
   const params = { tweet: req.params.id, user: req.currentUser._id };
-  console.log(params);
+
   Like.findOne(params)
     .then(like => {
       if (like) {

@@ -56,7 +56,8 @@ const userSchema = new mongoose.Schema({
     }
   },
   social: {
-    slack: String
+    slack: String,
+    google: String
   }
 });
 

@@ -7,6 +7,8 @@ const sessionMiddleware = require('../middlewares/session.middleware')
 const uploads = multer({ dest: './public/uploads' });
 
 router.get('/auth/slack', sessionMiddleware.isNotAuthenticated, usersController.doSocialLogin);
+router.get('/auth/google', sessionMiddleware.isNotAuthenticated, usersController.doSocialLoginGoogle);
+router.get('/auth/google/cb', sessionMiddleware.isNotAuthenticated, usersController.doSocialLoginGoogleCB);
 router.get('/login', sessionMiddleware.isNotAuthenticated, usersController.login);
 router.post('/login', sessionMiddleware.isNotAuthenticated, usersController.doLogin);
 router.get('/signup', sessionMiddleware.isNotAuthenticated, usersController.signup);
