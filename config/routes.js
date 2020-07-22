@@ -6,8 +6,7 @@ const usersController = require('../controllers/users.controller')
 const sessionMiddleware = require('../middlewares/session.middleware')
 const uploads = multer({ dest: './public/uploads' });
 
-router.get('/', (req, res) => { res.redirect('/tweets') })
-
+router.get('/auth/slack', sessionMiddleware.isNotAuthenticated, usersController.doSocialLogin);
 router.get('/login', sessionMiddleware.isNotAuthenticated, usersController.login);
 router.post('/login', sessionMiddleware.isNotAuthenticated, usersController.doLogin);
 router.get('/signup', sessionMiddleware.isNotAuthenticated, usersController.signup);
@@ -16,4 +15,9 @@ router.get('/activate/:token', sessionMiddleware.isNotAuthenticated, usersContro
 router.post('/logout', sessionMiddleware.isAuthenticated, usersController.logout);
 router.get('/tweets', sessionMiddleware.isAuthenticated, tweetsController.list);
 router.post('/tweets/:id/like', sessionMiddleware.isAuthenticated, tweetsController.like)
+
+router.get("/", (req, res) => {
+  res.redirect("/tweets");
+});
+
 module.exports = router;

@@ -54,6 +54,9 @@ const userSchema = new mongoose.Schema({
       type: String,
       default: generateRandomToken
     }
+  },
+  social: {
+    slack: String
   }
 });
 

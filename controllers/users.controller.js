@@ -1,9 +1,23 @@
 const mongoose = require('mongoose')
 const User = require('../models/user.model')
 const nodemailer = require('../config/mailer.config');
+const passport = require('passport')
 
 module.exports.login = (req, res, next) => {
   res.render('users/login')
+}
+
+module.exports.doSocialLogin = (req, res, next) => {
+  const passportController = passport.authenticate("slack", (error, user) => {
+    if (error) {
+      next(error);
+    } else {
+      req.session.userId = user._id;
+      res.redirect("/");
+    }
+  })
+  
+  passportController(req, res, next);
 }
 
 module.exports.doLogin = (req, res, next) => {
