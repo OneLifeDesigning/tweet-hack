@@ -55,8 +55,6 @@ const google = new GoogleStrategy(
           User.findOne({ 'email': profile.emails[0].value, })
           .then(user => {
               if (user) {
-                user.name = profile.displayName
-                user.avatar = profile.photos[0].value
                 user.social.google = profile.id
                 user.save()
               } else {

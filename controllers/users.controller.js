@@ -20,21 +20,10 @@ module.exports.doSocialLogin = (req, res, next) => {
   passportController(req, res, next);
 }
 
-module.exports.doSocialLoginGoogle = (req, res, next) => {
-  const passportDoSocialLoginGoogle =  passport.authenticate('google', { scope:  ['profile', 'email']}, (error, user) => {
-    if (error) {
-      next(error);
-    } else {
-      req.session.userId = user._id;
-      res.redirect("/");
-    }
-  })
 
-  passportDoSocialLoginGoogle(req, res, next)
-}
 
 module.exports.doSocialLoginGoogleCB = (req, res, next) => {
-  const passportDoSocialLoginGoogleCB =  passport.authenticate('google', {  successRedirect: '/tweets', failureRedirect: '/login' }, (error, user) => {
+  const passportDoSocialLoginGoogleCB =  passport.authenticate('google', { scope:  ['profile', 'email'] }, (error, user) => {
     if (error) {
       next(error);
     } else {
@@ -95,7 +84,7 @@ module.exports.signup = (req, res, next) => {
 
 module.exports.createUser = (req, res, next) => {
   const userParams = req.body;
-  userParams.avatar = req.file ? `/uploads/${req.file.filename}` : undefined;
+  userParams.avatar = req.file ? req.file.path : undefined;
   const user = new User(userParams);
 
   user.save()
